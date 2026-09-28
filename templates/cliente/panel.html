@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Mi panel - MiraLiz{% endblock %}
+{% block content %}
+<h2>Bienvenido, {{ current_user.nombre_completo }}</h2>
+
+<div class="row g-3 mt-2">
+    <div class="col-md-3">
+        <a href="{{ url_for('cliente.mis_pedidos') }}" class="btn btn-outline-secondary w-100 py-3">Mis pedidos</a>
+    </div>
+    <div class="col-md-3">
+        <a href="{{ url_for('public.catalogo', categoria='Personalizados') }}" class="btn btn-outline-secondary w-100 py-3">Mis solicitudes personalizadas</a>
+    </div>
+    <div class="col-md-3">
+        <a href="{{ url_for('cliente.ver_carrito') }}" class="btn btn-outline-secondary w-100 py-3">Carrito</a>
+    </div>
+    <div class="col-md-3">
+        <a href="{{ url_for('cliente.perfil') }}" class="btn btn-outline-secondary w-100 py-3">Mi perfil</a>
+    </div>
+</div>
+
+<h4 class="mt-4">Pedidos recientes</h4>
+<table class="table table-striped bg-white">
+    <thead><tr><th>Número</th><th>Fecha</th><th>Total</th><th>Estado</th><th></th></tr></thead>
+    <tbody>
+    {% for p in pedidos %}
+        <tr>
+            <td>#{{ p.id }}</td>
+            <td>{{ p.fecha.strftime("%d/%m/%Y") }}</td>
+            <td>Bs. {{ "%.2f"|format(p.total) }}</td>
+            <td><span class="badge bg-secondary">{{ p.estado }}</span></td>
+            <td><a href="{{ url_for('cliente.detalle_pedido', pedido_id=p.id) }}">Ver</a></td>
+        </tr>
+    {% else %}
+        <tr><td colspan="5" class="text-muted">Aún no tienes pedidos.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

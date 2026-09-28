@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Mis tareas - MiraLiz{% endblock %}
+{% block content %}
+<h2>Mis tareas de producción</h2>
+<table class="table bg-white table-striped align-middle">
+    <thead><tr><th>Pedido</th><th>Fecha límite</th><th>Horas est.</th><th>Estado</th><th>Actualizar</th></tr></thead>
+    <tbody>
+    {% for t in tareas %}
+        <tr>
+            <td><a href="{{ url_for('cliente.detalle_pedido', pedido_id=t.pedido_id) }}">#{{ t.pedido_id }}</a></td>
+            <td>{{ t.fecha_limite.strftime("%d/%m/%Y") if t.fecha_limite else "—" }}</td>
+            <td>{{ t.horas_estimadas }}</td>
+            <td><span class="badge bg-secondary">{{ t.estado }}</span></td>
+            <td>
+                <form method="post" action="{{ url_for('empleado.actualizar_tarea', tarea_id=t.id) }}" class="d-flex gap-1">
+                    <select name="estado" class="form-select form-select-sm">
+                        <option value="PENDIENTE" {% if t.estado == "PENDIENTE" %}selected{% endif %}>Pendiente</option>
+                        <option value="EN_PROCESO" {% if t.estado == "EN_PROCESO" %}selected{% endif %}>En proceso</option>
+                        <option value="TERMINADO" {% if t.estado == "TERMINADO" %}selected{% endif %}>Terminado</option>
+                    </select>
+                    <button class="btn btn-sm btn-primary-miraliz">✓</button>
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr><td colspan="5" class="text-muted">No tienes tareas asignadas.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

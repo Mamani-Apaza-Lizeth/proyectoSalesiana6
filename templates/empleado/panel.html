@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Panel empleado - MiraLiz{% endblock %}
+{% block content %}
+<h2>Dashboard</h2>
+<p>Tienes <strong>{{ tareas_pendientes }}</strong> tareas de producción pendientes.</p>
+
+<div class="row g-3">
+    <div class="col-md-3"><a href="{{ url_for('empleado.nueva_venta') }}" class="btn btn-outline-secondary w-100 py-3">Nueva venta</a></div>
+    <div class="col-md-3"><a href="{{ url_for('empleado.mis_tareas') }}" class="btn btn-outline-secondary w-100 py-3">Mis tareas</a></div>
+    <div class="col-md-3"><a href="{{ url_for('empleado.inventario') }}" class="btn btn-outline-secondary w-100 py-3">Inventario</a></div>
+    <div class="col-md-3"><a href="{{ url_for('empleado.historial_ventas') }}" class="btn btn-outline-secondary w-100 py-3">Historial</a></div>
+</div>
+{% endblock %}

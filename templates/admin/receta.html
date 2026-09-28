@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Receta de {{ producto.nombre }} - Admin{% endblock %}
+{% block content %}
+<h2>Receta: {{ producto.nombre }}</h2>
+
+<table class="table bg-white">
+    <thead><tr><th>Insumo</th><th>Cantidad por unidad</th><th></th></tr></thead>
+    <tbody>
+    {% for r in producto.receta %}
+        <tr>
+            <td>{{ r.insumo.nombre }}</td>
+            <td>{{ r.cantidad_por_unidad }} {{ r.insumo.unidad }}</td>
+            <td>
+                <form method="post" action="{{ url_for('admin.receta_eliminar_item', producto_id=producto.id, item_id=r.id) }}">
+                    <button class="btn btn-sm btn-outline-danger">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+    {% else %}
+        <tr><td colspan="3" class="text-muted">Sin insumos definidos aún.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<h5>Agregar / actualizar insumo</h5>
+<form method="post" class="card p-3 d-flex flex-row gap-2 align-items-end" style="max-width:600px;">
+    <div>
+        <label class="form-label">Insumo</label>
+        <select name="insumo_id" class="form-select">
+            {% for i in insumos %}
+            <option value="{{ i.id }}">{{ i.nombre }} ({{ i.unidad }})</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <label class="form-label">Cantidad por unidad</label>
+        <input type="number" step="0.01" name="cantidad_por_unidad" class="form-control" required>
+    </div>
+    <button class="btn btn-primary-miraliz">Guardar</button>
+</form>
+{% endblock %}

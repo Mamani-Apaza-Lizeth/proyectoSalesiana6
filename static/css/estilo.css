@@ -1,0 +1,28 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #faf7fb;
+}
+main { flex: 1; }
+
+.hero {
+    background: linear-gradient(135deg, #7b2d8e, #b34fc9);
+    color: white;
+    border-radius: 1rem;
+    padding: 3rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.card-producto { transition: transform .15s ease; height: 100%; }
+.card-producto:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,.08); }
+
+.badge-personalizado { background-color: #b34fc9; }
+.badge-listo { background-color: #2d9c5a; }
+
+.btn-primary-miraliz {
+    background-color: #7b2d8e;
+    border-color: #7b2d8e;
+    color: white;
+}
+.btn-primary-miraliz:hover { background-color: #63236f; color: white; }

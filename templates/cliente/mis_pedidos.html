@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Mis pedidos - MiraLiz{% endblock %}
+{% block content %}
+<h2>Mis pedidos</h2>
+<table class="table bg-white table-striped">
+    <thead><tr><th>Número</th><th>Fecha</th><th>Tipo</th><th>Total</th><th>Estado</th><th></th></tr></thead>
+    <tbody>
+    {% for p in pedidos %}
+        <tr>
+            <td>#{{ p.id }}</td>
+            <td>{{ p.fecha.strftime("%d/%m/%Y") }}</td>
+            <td>{{ "Personalizado" if p.tipo == "PERSONALIZADO" else "Listo" }}</td>
+            <td>Bs. {{ "%.2f"|format(p.total) }}</td>
+            <td><span class="badge bg-secondary">{{ p.estado }}</span></td>
+            <td><a href="{{ url_for('cliente.detalle_pedido', pedido_id=p.id) }}">Ver detalle</a></td>
+        </tr>
+    {% else %}
+        <tr><td colspan="6" class="text-muted">Aún no tienes pedidos.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

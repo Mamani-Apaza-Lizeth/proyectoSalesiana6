@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Panel administrativo - MiraLiz{% endblock %}
+{% block content %}
+<h2>Dashboard</h2>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card p-3 text-center"><h6>Ventas del día</h6><h3>Bs. {{ "%.2f"|format(total_ventas_hoy) }}</h3></div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 text-center"><h6>Pedidos pendientes</h6><h3>{{ pedidos_pendientes }}</h3></div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 text-center"><h6>Pedidos en producción</h6><h3>{{ pedidos_produccion }}</h3></div>
+    </div>
+    <div class="col-md-3">
+        <div class="card p-3 text-center"><h6>Insumos con stock bajo</h6><h3>{{ insumos_stock_bajo|length }}</h3></div>
+    </div>
+</div>
+
+<div class="row g-2 mb-4">
+    <div class="col-md-2"><a href="{{ url_for('admin.pedidos') }}" class="btn btn-outline-secondary w-100">Pedidos</a></div>
+    <div class="col-md-2"><a href="{{ url_for('admin.productos') }}" class="btn btn-outline-secondary w-100">Productos</a></div>
+    <div class="col-md-2"><a href="{{ url_for('admin.insumos') }}" class="btn btn-outline-secondary w-100">Inventario</a></div>
+    <div class="col-md-2"><a href="{{ url_for('admin.empleados') }}" class="btn btn-outline-secondary w-100">Empleados</a></div>
+    <div class="col-md-2"><a href="{{ url_for('admin.alertas') }}" class="btn btn-outline-secondary w-100">Alertas</a></div>
+    <div class="col-md-2"><a href="{{ url_for('admin.reportes') }}" class="btn btn-outline-secondary w-100">Reportes</a></div>
+</div>
+
+{% if insumos_stock_bajo %}
+<div class="alert alert-warning">
+    <strong>⚠ Insumos con stock bajo:</strong>
+    <ul class="mb-0">
+        {% for i in insumos_stock_bajo %}
+        <li>{{ i.nombre }}: {{ i.stock_actual }} {{ i.unidad }} (mínimo {{ i.stock_minimo }})</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endblock %}

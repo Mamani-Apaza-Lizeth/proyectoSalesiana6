@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Pedido #{{ pedido.id }} - Admin{% endblock %}
+{% block content %}
+<h2>Pedido #{{ pedido.id }}</h2>
+<p>
+    Cliente: <strong>{{ pedido.cliente.nombre_completo }}</strong> ({{ pedido.cliente.correo }})<br>
+    Fecha: {{ pedido.fecha.strftime("%d/%m/%Y %H:%M") }}<br>
+    Estado: <span class="badge bg-secondary">{{ pedido.estado }}</span>
+</p>
+
+{% if pedido.tipo == "LISTO" %}
+<table class="table bg-white">
+    <thead><tr><th>Producto</th><th>Cantidad</th><th>Subtotal</th></tr></thead>
+    <tbody>
+    {% for d in pedido.detalles %}
+        <tr><td>{{ d.producto.nombre }}</td><td>{{ d.cantidad }}</td><td>Bs. {{ "%.2f"|format(d.subtotal) }}</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="card p-3 bg-white mb-3">
+    <p><strong>Producto:</strong> {{ pedido.personalizacion.producto.nombre }} — Cantidad: {{ pedido.personalizacion.cantidad }}</p>
+    <ul>
+        {% for k, v in atributos.items() if v %}
+        <li>{{ k|capitalize }}: {{ v }}</li>
+        {% endfor %}
+    </ul>
+    <p>{{ pedido.personalizacion.descripcion_adicional }}</p>
+
+    {% if materiales %}
+    <h6>Materiales requeridos</h6>
+    <table class="table table-sm">
+        <thead><tr><th>Insumo</th><th>Necesario</th><th>Disponible</th><th></th></tr></thead>
+        <tbody>
+        {% for m in materiales %}
+            <tr class="{{ '' if m.suficiente else 'table-danger' }}">
+                <td>{{ m.insumo.nombre }}</td>
+                <td>{{ m.cantidad_necesaria }} {{ m.insumo.unidad }}</td>
+                <td>{{ m.disponible }} {{ m.insumo.unidad }}</td>
+                <td>{{ "✓" if m.suficiente else "⚠ Insuficiente" }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+{% endif %}
+
+<p><strong>Precio total estimado/final: Bs. {{ "%.2f"|format(pedido.total) }}</strong></p>
+<p>Anticipo: Bs. {{ "%.2f"|format(pedido.anticipo) }} — Saldo: Bs. {{ "%.2f"|format(pedido.saldo_pendiente) }}</p>
+
+{% if pedido.estado == "PENDIENTE" %}
+<div class="d-flex gap-2 mb-4">
+    <form method="post" action="{{ url_for('admin.pedido_aceptar', pedido_id=pedido.id) }}">
+        <button class="btn btn-success">ACEPTAR</button>
+    </form>
+    <button class="btn btn-danger" data-bs-toggle="collapse" data-bs-target="#formRechazo">RECHAZAR</button>
+</div>
+<div class="collapse mb-4" id="formRechazo">
+    <form method="post" action="{{ url_for('admin.pedido_rechazar', pedido_id=pedido.id) }}" class="card p-3">
+        <label class="form-label">Motivo del rechazo</label>
+        <textarea name="motivo" class="form-control mb-2" required></textarea>
+        <button class="btn btn-danger">Confirmar rechazo</button>
+    </form>
+</div>
+{% endif %}
+
+{% if pedido.estado == "ACEPTADO" %}
+<div class="card p-3 mb-4">
+    <h5>Asignar producción</h5>
+    <form method="post" action="{{ url_for('admin.pedido_asignar', pedido_id=pedido.id) }}" class="row g-2 align-items-end">
+        <div class="col-md-4">
+            <label class="form-label">Empleado</label>
+            <select name="empleado_id" class="form-select" required>
+                {% for e in pedido.cliente.__class__.query.filter_by(rol="EMPLEADO", estado="ACTIVO").all() %}
+                <option value="{{ e.id }}">{{ e.nombre_completo }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Fecha límite</label>
+            <input type="date" name="fecha_limite" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-primary-miraliz">Asignar</button>
+        </div>
+    </form>
+</div>
+{% endif %}
+
+{% if pedido.estado == "TERMINADO" %}
+<form method="post" action="{{ url_for('admin.pedido_entregar', pedido_id=pedido.id) }}">
+    <button class="btn btn-primary-miraliz">Marcar como ENTREGADO</button>
+</form>
+{% endif %}
+
+{% if pedido.produccion %}
+<div class="card p-3 mt-3">
+    <h6>Producción</h6>
+    <p>Empleado: {{ pedido.produccion.empleado.nombre_completo }} — Estado: <span class="badge bg-secondary">{{ pedido.produccion.estado }}</span></p>
+    <p>Horas estimadas: {{ pedido.produccion.horas_estimadas }} — Fecha límite: {{ pedido.produccion.fecha_limite or "—" }}</p>
+</div>
+{% endif %}
+{% endblock %}

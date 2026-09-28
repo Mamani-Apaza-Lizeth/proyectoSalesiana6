@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Contacto - MiraLiz{% endblock %}
+
+{% block content %}
+<style>
+    .contact-card {
+        background-color: #9191cc !important; 
+        border: 1px solid #bfa3cc !important; 
+        color: #ffffff !important; 
+    }
+
+    .contact-title {
+        color: #0f0f0f !important;
+    }
+
+    .custom-input {
+        background-color: #ffffff !important; 
+        color: #000000 !important; 
+    }
+
+    .custom-input:focus {
+        border-color: #9acfdf !important;
+        box-shadow: 0 0 8px rgba(87, 113, 161, 0.5) !important;
+    }
+
+    .btn-custom {
+        background-color: #d9badd !important; 
+        color: #1a1a2e !important; 
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        background-color: #74d0d3 !important; 
+        color: #000000 !important;
+    }
+</style>
+
+<div class="container my-5">
+    <h2 class="text-center mb-4" style="color: #675fb3; font-weight: bold;">Déjanos tus opiniones para mejorar los productos y el servicio</h2>
+
+    <div class="card p-4 shadow-lg rounded-4 contact-card">
+        <div class="row g-4 contac">
+            
+            <div class="col-lg-6 c1">
+                <h4 class="contact-title mb-3"><i class="fas fa-envelope-open-text"></i> Envíanos tu mensaje</h4>
+                <form>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control custom-input" id="nombre" placeholder="Tu nombre completo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control custom-input" id="email" placeholder="correo@ejemplo.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="celular" class="form-label">Celular</label>
+                        <input type="tel" class="form-control custom-input" id="celular" placeholder="+591 ...">
+                    </div>
+                    <div class="mb-3">
+                        <label for="mensaje" class="form-label">Opinión o Comentario</label>
+                        <textarea class="form-control custom-input" id="mensaje" rows="3" placeholder="¿Cómo fue tu experiencia con Cotillón MiraLiz?"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-custom w-100"><i class="fas fa-paper-plane"></i> Enviar Opinión</button>
+                </form>
+            </div>
+
+            <!-- Columna Derecha (c2): Información y Mapa de Google Maps -->
+            <div class="col-lg-6 c2 d-flex flex-column justify-content-between">
+                <div>
+                    <h4 class="contact-title mb-3"><i class="fas fa-map-marked-alt"></i> Contáctanos y Ubicación</h4>
+                    <p class="mb-2"><i class="fas fa-phone-alt contact-title me-2"></i> <strong>Teléfono:</strong> +591 70000000</p>
+                    <p class="mb-2"><i class="fas fa-envelope contact-title me-2"></i> <strong>Correo:</strong> contacto@cotillonmiraliz.com</p>
+                    <p class="mb-3"><i class="fas fa-map-marker-alt contact-title me-2"></i> <strong>Dirección:</strong> Universidad Salesiana de Bolivia, La Paz.</p>
+                </div>
+
+                <!-- Contenedor responsivo para el iframe proporcionado -->
+                <div class="mt-3">
+                    <div class="ratio ratio-4x3 rounded overflow-hidden shadow">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3825.9467116175792!2d-68.15194522569153!3d-16.47823574016376!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915edffbe7677a7d%3A0xce3ee13e9e12ee12!2sUniversidad%20Salesiana%20de%20Bolivia!5e0!3m2!1ses-419!2sbo!4v1790555029814!5m2!1ses-419!2sbo" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

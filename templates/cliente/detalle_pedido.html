@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Pedido #{{ pedido.id }} - MiraLiz{% endblock %}
+{% block content %}
+<h2>Pedido #{{ pedido.id }}</h2>
+<p>Estado: <span class="badge bg-secondary">{{ pedido.estado }}</span>
+{% if pedido.revision_stock %}<span class="badge bg-warning text-dark">Pendiente revisión de stock</span>{% endif %}</p>
+
+{% if pedido.tipo == "LISTO" %}
+<table class="table bg-white">
+    <thead><tr><th>Producto</th><th>Cantidad</th><th>Precio</th><th>Subtotal</th></tr></thead>
+    <tbody>
+    {% for d in pedido.detalles %}
+        <tr><td>{{ d.producto.nombre }}</td><td>{{ d.cantidad }}</td><td>Bs. {{ "%.2f"|format(d.precio_unitario) }}</td><td>Bs. {{ "%.2f"|format(d.subtotal) }}</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="card p-3 bg-white">
+    <p><strong>Producto:</strong> {{ pedido.personalizacion.producto.nombre }}</p>
+    <p><strong>Cantidad:</strong> {{ pedido.personalizacion.cantidad }}</p>
+    {% if atributos %}
+    <ul>
+        {% for k, v in atributos.items() if v %}
+        <li>{{ k|capitalize }}: {{ v }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <p>{{ pedido.personalizacion.descripcion_adicional }}</p>
+</div>
+{% endif %}
+
+{% if pedido.estado == "RECHAZADO" and pedido.motivo_rechazo %}
+<div class="alert alert-danger mt-3">Motivo de rechazo: {{ pedido.motivo_rechazo }}</div>
+{% endif %}
+
+<p class="mt-3"><strong>Total: Bs. {{ "%.2f"|format(pedido.total) }}</strong></p>
+<p>Anticipo pagado: Bs. {{ "%.2f"|format(pedido.anticipo) }} — Saldo pendiente: Bs. {{ "%.2f"|format(pedido.saldo_pendiente) }}</p>
+
+{% if pedido.saldo_pendiente > 0 %}
+<a href="{{ url_for('cliente.pagar_pedido', pedido_id=pedido.id) }}" class="btn btn-primary-miraliz">Pagar</a>
+{% endif %}
+{% endblock %}

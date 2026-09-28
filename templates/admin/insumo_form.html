@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{{ "Editar" if insumo else "Nuevo" }} insumo - Admin{% endblock %}
+{% block content %}
+<h2>{{ "Editar" if insumo else "Nuevo" }} insumo</h2>
+<form method="post" class="card p-4" style="max-width:450px;">
+    <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input type="text" name="nombre" class="form-control" value="{{ insumo.nombre if insumo else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Unidad de medida</label>
+        <select name="unidad" class="form-select">
+            {% for u in ["UNIDAD", "METRO", "LITRO", "KILOGRAMO"] %}
+            <option value="{{ u }}" {% if insumo and insumo.unidad == u %}selected{% endif %}>{{ u }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Stock actual</label>
+        <input type="number" step="0.01" name="stock_actual" class="form-control" value="{{ insumo.stock_actual if insumo else 0 }}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Stock mínimo</label>
+        <input type="number" step="0.01" name="stock_minimo" class="form-control" value="{{ insumo.stock_minimo if insumo else 0 }}">
+    </div>
+    <button type="submit" class="btn btn-primary-miraliz">Guardar</button>
+</form>
+{% endblock %}

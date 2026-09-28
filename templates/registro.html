@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block title %}Crear cuenta - MiraLiz{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-image: url('https://img.magnific.com/vector-premium/caida-puntos-color-sobre-fondo-oscuro-patron-divertido-ilustracion-circulos-punteados-colores-brillantes-abstractos-eps10_160081-456.jpg');
+        background-size: cover;
+        background-position: center;
+    }
+    .glass-card {
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 24px;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        color: #fbfafa;
+    }
+    .avatar-icon {
+        width: 70px;
+        height: 70px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem auto;
+        font-size: 2rem;
+        color: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .glass-input {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: #ffffff !important;
+        border-radius: 12px;
+        padding: 0.6rem 1rem;
+    }
+    .glass-input::placeholder { color: rgba(255, 255, 255, 0.5); }
+    .glass-input:focus {
+        background: rgba(255, 255, 255, 0.2) !important;
+        box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+        border-color: rgba(255, 255, 255, 0.4) !important;
+    }
+    .btn-glass {
+        background: linear-gradient(90deg, #67448a 0%, #2850bc 100%);
+        border: none;
+        color: rgb(249, 247, 247);
+        font-weight: 600;
+        border-radius: 12px;
+        padding: 0.75rem;
+        transition: all 0.3s ease;
+    }
+    .btn-glass:hover {
+        background: linear-gradient(90deg, #a821a6 0%, #9333ea 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+    }
+    .toggle-link {
+        color: #ffffff;
+        text-decoration: underline;
+        font-weight: 600;
+    }
+</style>
+
+<div class="row justify-content-center my-4">
+    <div class="col-md-6">
+        <div class="glass-card p-4 text-center">
+            <div class="avatar-icon"><i class="bi bi-person-plus-fill"></i></div>
+            <h3 class="fw-bold mb-3">Crear cuenta</h3>
+            
+            <form method="post">
+                <div class="mb-3 text-start">
+                    <label class="form-label text-light">Nombre completo</label>
+                    <input type="text" name="nombre_completo" class="form-control glass-input" value="{{ form.get('nombre_completo','') }}" placeholder="Ej. Juan Pérez" required>
+                </div>
+                <div class="mb-3 text-start">
+                    <label class="form-label text-light">Correo electrónico</label>
+                    <input type="email" name="correo" class="form-control glass-input" value="{{ form.get('correo','') }}" placeholder="correo@ejemplo.com" required>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3 text-start">
+                        <label class="form-label text-light">Teléfono</label>
+                        <input type="text" name="telefono" class="form-control glass-input" value="{{ form.get('telefono','') }}" placeholder="Opcional">
+                    </div>
+                    <div class="col-md-6 mb-3 text-start">
+                        <label class="form-label text-light">Dirección</label>
+                        <input type="text" name="direccion" class="form-control glass-input" value="{{ form.get('direccion','') }}" placeholder="Opcional">
+                    </div>
+                </div>
+                <div class="mb-3 text-start">
+                    <label class="form-label text-light">Contraseña</label>
+                    <input type="password" name="password" class="form-control glass-input" placeholder="••••••••" required>
+                </div>
+                <div class="mb-4 text-start">
+                    <label class="form-label text-light">Confirmar contraseña</label>
+                    <input type="password" name="confirmacion" class="form-control glass-input" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-glass w-100 mb-3">Registrarme</button>
+            </form>
+            
+            <p class="mb-0 text-light opacity-75">¿Ya tienes cuenta? <a href="{{ url_for('auth.login') }}" class="toggle-link">Inicia sesión</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

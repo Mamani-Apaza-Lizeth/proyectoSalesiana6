@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Historial de ventas - MiraLiz{% endblock %}
+{% block content %}
+<h2>Historial de ventas</h2>
+<table class="table bg-white table-striped">
+    <thead><tr><th>Fecha</th><th>Cliente</th><th>Método</th><th>Total</th></tr></thead>
+    <tbody>
+    {% for v in ventas %}
+        <tr>
+            <td>{{ v.fecha.strftime("%d/%m/%Y %H:%M") }}</td>
+            <td>{{ v.cliente_nombre }}</td>
+            <td>{{ v.metodo_pago }}</td>
+            <td>Bs. {{ "%.2f"|format(v.total) }}</td>
+        </tr>
+    {% else %}
+        <tr><td colspan="4" class="text-muted">Sin ventas registradas.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Alertas - Admin{% endblock %}
+{% block content %}
+<h2>Alertas de inventario</h2>
+{% if alertas %}
+<table class="table bg-white table-striped">
+    <thead><tr><th>Fecha</th><th>Tipo</th><th>Mensaje</th></tr></thead>
+    <tbody>
+    {% for a in alertas %}
+        <tr class="table-warning">
+            <td>{{ a.fecha.strftime("%d/%m/%Y %H:%M") if a.fecha else "—" }}</td>
+            <td>{{ a.tipo }}</td>
+            <td>⚠ {{ a.mensaje }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="text-muted">No hay alertas activas. Todo el inventario está en niveles adecuados.</p>
+{% endif %}
+{% endblock %}

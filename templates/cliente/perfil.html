@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Mi perfil - MiraLiz{% endblock %}
+{% block content %}
+<h2>Mi perfil</h2>
+<div class="card p-4" style="max-width:500px;">
+    <p><strong>Nombre:</strong> {{ current_user.nombre_completo }}</p>
+    <p><strong>Correo:</strong> {{ current_user.correo }}</p>
+    <p><strong>Teléfono:</strong> {{ current_user.telefono or "—" }}</p>
+    <p><strong>Dirección:</strong> {{ current_user.direccion or "—" }}</p>
+    <p><strong>Miembro desde:</strong> {{ current_user.fecha_registro.strftime("%d/%m/%Y") }}</p>
+</div>
+{% endblock %}

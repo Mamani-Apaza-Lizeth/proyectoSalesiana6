@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Reportes - Admin{% endblock %}
+{% block content %}
+<h2>Reportes</h2>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Ventas</h5>
+            <p>Total vendido: <strong>Bs. {{ "%.2f"|format(total_vendido) }}</strong></p>
+            <p>Número de ventas: <strong>{{ num_ventas }}</strong></p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Pedidos</h5>
+            <p>Pendientes: <strong>{{ pedidos_pendientes }}</strong></p>
+            <p>Terminados/Entregados: <strong>{{ pedidos_terminados }}</strong></p>
+            <p>Rechazados: <strong>{{ pedidos_rechazados }}</strong></p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5>Inventario</h5>
+            <p>Productos activos: <strong>{{ productos_activos }}</strong></p>
+            <p>Insumos con stock bajo: <strong>{{ insumos_stock_bajo }}</strong></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Personalizar {{ producto.nombre }} - MiraLiz{% endblock %}
+{% block content %}
+<h2>Personalizar: {{ producto.nombre }}</h2>
+<p class="text-muted">Precio base: Bs. {{ "%.2f"|format(producto.precio) }} por unidad. El precio final se calcula como precio base × cantidad.</p>
+
+<div class="card p-4">
+    <form method="post" id="formPersonalizar">
+        {% if producto.nombre == "Mochila" %}
+        <div class="mb-3">
+            <label class="form-label">Material</label>
+            <select name="material" class="form-select">
+                <option>Cuerina</option>
+                <option>Tela</option>
+                <option>Lona</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Material interior</label>
+            <select name="material_interior" class="form-select">
+                <option>Lona</option>
+                <option>Tela impermeable</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Acabado</label>
+            <select name="acabado" class="form-select">
+                <option>Estándar</option>
+                <option>Premium</option>
+            </select>
+        </div>
+        {% elif producto.nombre == "Piñata 2D" %}
+        <div class="mb-3">
+            <label class="form-label">Tamaño</label>
+            <select name="tamano" class="form-select">
+                <option>Pequeña</option>
+                <option>Mediana</option>
+                <option>Grande</option>
+            </select>
+        </div>
+        {% endif %}
+
+        <div class="mb-3">
+            <label class="form-label">Temática</label>
+            <select name="tematica" id="tematica" class="form-select" onchange="document.getElementById('otroDiv').style.display = this.value==='Otro' ? 'block':'none'">
+                {% for t in temas %}
+                <option value="{{ t }}">{{ t }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3" id="otroDiv" style="display:none;">
+            <label class="form-label">Especifique la temática</label>
+            <input type="text" name="tematica_otro" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Cantidad</label>
+            <input type="number" name="cantidad" value="1" min="1" class="form-control" style="max-width:150px;">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Descripción adicional</label>
+            <textarea name="descripcion_adicional" class="form-control" rows="3" placeholder="Detalles del diseño solicitado..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary-miraliz">Enviar solicitud</button>
+    </form>
+
+    {% if materiales_preview %}
+    <hr>
+    <h6>Materiales requeridos por unidad (referencia)</h6>
+    <ul class="small text-muted">
+        {% for m in materiales_preview %}
+        <li>{{ m.insumo.nombre }}: {{ m.cantidad_necesaria }} {{ m.insumo.unidad }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+{% endblock %}

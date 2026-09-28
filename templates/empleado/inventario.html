@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Inventario - MiraLiz{% endblock %}
+{% block content %}
+<h2>Inventario de productos</h2>
+<table class="table bg-white table-striped">
+    <thead><tr><th>Producto</th><th>Tipo</th><th>Stock</th><th>Precio</th></tr></thead>
+    <tbody>
+    {% for p in productos %}
+        <tr>
+            <td>{{ p.nombre }}</td>
+            <td>{{ "Personalizado" if p.tipo == "PRODUCTO_PERSONALIZADO" else "Listo" }}</td>
+            <td>{{ p.stock if p.tipo == "PRODUCTO_LISTO" else "—" }}</td>
+            <td>Bs. {{ "%.2f"|format(p.precio) }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

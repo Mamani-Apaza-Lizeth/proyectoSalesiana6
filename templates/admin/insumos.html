@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Insumos - Admin{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Insumos (materia prima)</h2>
+    <a href="{{ url_for('admin.insumo_nuevo') }}" class="btn btn-primary-miraliz">+ Nuevo insumo</a>
+</div>
+<table class="table bg-white table-striped align-middle">
+    <thead><tr><th>Nombre</th><th>Unidad</th><th>Stock actual</th><th>Stock mínimo</th><th></th><th></th></tr></thead>
+    <tbody>
+    {% for i in insumos %}
+        <tr class="{{ 'table-warning' if i.stock_bajo() else '' }}">
+            <td>{{ i.nombre }}</td>
+            <td>{{ i.unidad }}</td>
+            <td>{{ i.stock_actual }}</td>
+            <td>{{ i.stock_minimo }}</td>
+            <td>{% if i.stock_bajo() %}<span class="badge bg-warning text-dark">⚠ Stock bajo</span>{% endif %}</td>
+            <td><a href="{{ url_for('admin.insumo_editar', insumo_id=i.id) }}" class="btn btn-sm btn-outline-primary">Editar</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
